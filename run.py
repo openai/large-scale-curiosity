@@ -4,14 +4,13 @@ try:
 except:
     print("no OpenGL.GLU")
 import functools
-import os.path as osp
-from functools import partial
-
 import gym
+import os.path as osp
 import tensorflow as tf
 from baselines import logger
 from baselines.bench import Monitor
 from baselines.common.atari_wrappers import NoopResetEnv, FrameStack
+from functools import partial
 from mpi4py import MPI
 
 from auxiliary_tasks import FeatureExtractor, InverseDynamics, VAE, JustPixels
@@ -172,13 +171,13 @@ def add_environments_params(parser):
 
 def add_optimization_params(parser):
     parser.add_argument('--lambda', type=float, default=0.95)
-    parser.add_argument('--gamma', type=float, default=0.999)
+    parser.add_argument('--gamma', type=float, default=0.99)
     parser.add_argument('--nminibatches', type=int, default=8)
     parser.add_argument('--norm_adv', type=int, default=1)
     parser.add_argument('--norm_rew', type=int, default=1)
     parser.add_argument('--lr', type=float, default=1e-4)
     parser.add_argument('--ent_coeff', type=float, default=0.001)
-    parser.add_argument('--nepochs', type=int, default=6)
+    parser.add_argument('--nepochs', type=int, default=3)
     parser.add_argument('--num_timesteps', type=int, default=int(1e8))
 
 
@@ -186,7 +185,7 @@ def add_rollout_params(parser):
     parser.add_argument('--nsteps_per_seg', type=int, default=128)
     parser.add_argument('--nsegs_per_env', type=int, default=1)
     parser.add_argument('--envs_per_process', type=int, default=128)
-    parser.add_argument('--nlumps', type=int, default=2)
+    parser.add_argument('--nlumps', type=int, default=1)
 
 
 if __name__ == '__main__':
