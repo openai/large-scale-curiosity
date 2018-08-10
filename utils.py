@@ -1,14 +1,13 @@
 import multiprocessing
+import numpy as np
 import os
 import pickle
 import platform
 import subprocess
 import sys
-from functools import partial
-
-import numpy as np
 import tensorflow as tf
 from baselines.common.tf_util import normc_initializer
+from functools import partial
 from mpi4py import MPI
 
 
@@ -144,7 +143,6 @@ def small_convnet(x, nl, feat_dim, last_nl, layernormalize, batchnorm=False):
         x = last_nl(x)
     if layernormalize:
         x = layernorm(x)
-    x = tf.layers.batch_normalization(x, trainable=False, training=True)
     return x
 
 
