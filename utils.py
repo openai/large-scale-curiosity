@@ -1,13 +1,11 @@
 import multiprocessing
-import numpy as np
 import os
-import pickle
 import platform
-import subprocess
-import sys
+from functools import partial
+
+import numpy as np
 import tensorflow as tf
 from baselines.common.tf_util import normc_initializer
-from functools import partial
 from mpi4py import MPI
 
 
@@ -227,24 +225,3 @@ def tile_images(array, n_cols=None, max_images=None, div=1):
 
     return np.concatenate([row(i) for i in range(n_rows)], axis=0)
 
-
-def save_exp_details(filename, savedir, args):
-    source_dirname = os.path.dirname(os.path.abspath(filename))
-    git_hash = subprocess.run("git log --pretty=format:%H -n 1".split(' '), cwd=source_dirname,
-                              stdout=subprocess.PIPE).stdout.decode('utf-8')
-    git_diff = subprocess.run("git diff {} --full-index".format(git_hash).split(' '), cwd=source_dirname,
-                              stdout=subprocess.PIPE).stdout.decode('utf-8')
-    ordered_arg_names = sorted(list(args.keys()))
-    sorted_args = [(k, args[k]) for k in ordered_arg_names]
-
-    rank_zero_savedir = savedir if MPI.COMM_WORLD.Get_rank() == 0 else None
-    rank_zero_savedir = MPI.COMM_WORLD.bcast(rank_zero_savedir, root=0)
-
-    with open(os.path.join(savedir, "exp_details.pkl"), 'wb') as f:
-        obj = {'git_hash': git_hash,
-               'git_diff': git_diff,
-               'args': sorted_args,
-               'argv': ' '.join(sys.argv),
-               'name': args['exp_name'],
-               'rank_zero_savedir': rank_zero_savedir}
-        pickle.dump(obj, f, protocol=0)

@@ -25,7 +25,11 @@ This is a TensorFlow based implementation for our [paper on large-scale study of
     }
 
 ### Installation and Usage
-Stay tuned! To be released soon.
+The following command should train a pure exploration agent on Breakout with default experiment parameters.
+```bash
+python run.py
+```
+To use more than one gpu/machine, use MPI (e.g. `mpiexec -n 8 python run.py` should use 1024 parallel environments to collect experience instead of the default 128 on an 8 gpu machine). 
 
 ### Other helpful pointers
 - [Paper](https://pathak22.github.io/large-scale-curiosity/resources/largeScaleCuriosity2018.pdf)

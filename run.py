@@ -4,20 +4,21 @@ try:
 except:
     print("no OpenGL.GLU")
 import functools
-import gym
 import os.path as osp
+from functools import partial
+
+import gym
 import tensorflow as tf
 from baselines import logger
 from baselines.bench import Monitor
 from baselines.common.atari_wrappers import NoopResetEnv, FrameStack
-from functools import partial
 from mpi4py import MPI
 
 from auxiliary_tasks import FeatureExtractor, InverseDynamics, VAE, JustPixels
 from cnn_policy import CnnPolicy
 from cppo_agent import PpoOptimizer
 from dynamics import Dynamics, UNet
-from utils import random_agent_ob_mean_std, save_exp_details
+from utils import random_agent_ob_mean_std
 from wrappers import MontezumaInfoWrapper, make_mario_env, make_robo_pong, make_robo_hockey, \
     make_multi_pong, AddRandomStateToInfo, MaxAndSkipEnv, ProcessFrame84, ExtraTimeLimit
 
@@ -32,7 +33,6 @@ def start_experiment(**args):
     with log, tf_sess:
         logdir = logger.get_dir()
         print("results will be saved to ", logdir)
-        save_exp_details(filename=__file__, savedir=logdir, args=args)
         trainer.train()
 
 
