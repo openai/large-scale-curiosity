@@ -1,3 +1,5 @@
+**Status:** Archive (code is provided as-is, no updates expected)
+
 ## Large-Scale Study of Curiosity-Driven Learning ##
 #### [[Project Website]](https://pathak22.github.io/large-scale-curiosity/) [[Demo Video]](https://youtu.be/l1FqtAHfJLI)
 
