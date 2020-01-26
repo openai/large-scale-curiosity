@@ -27,6 +27,11 @@ This is a TensorFlow based implementation for our [paper on large-scale study of
     }
 
 ### Installation and Usage
+
+Install dependencies.
+```bash
+pip install -r requirements.txt
+```
 The following command should train a pure exploration agent on Breakout with default experiment parameters.
 ```bash
 python run.py
